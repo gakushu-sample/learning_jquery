@@ -1,0 +1,48 @@
+html,
+body {
+    font-family: 'Nunito', 'Noto Sans JP', sans-serif;
+    color: #4b4b4b;
+    letter-spacing: 0.1rem;
+}
+main {
+    width: 1000px;
+    padding: 10px 60px 20px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    background-color: #eee;
+}
+
+.clock {
+    display: flex;
+    align-items: center;
+}
+.date {
+    flex: 0 0 auto;
+    font-size: 30px;
+    box-sizing: border-box;
+    padding: 0 20px;
+}
+.time {
+    flex: 0 0 auto;
+    font-size: 42px;
+    box-sizing: border-box;
+    padding: 0 20px;
+}
+.city {
+    font-size: 24px;
+    font-family: 'Nunito', 'Noto Sans JP', sans-serif;
+    color: #4b4b4b;
+    letter-spacing: 0.1rem;
+    width: 100%;
+}
+.top_container {
+    display: flex;
+    align-items: center;
+}
+.top_child {
+    flex: 0 0 50%;
+    font-size: 24px;
+}
+.top_child:last-child {
+    padding-left: 20px;
+}

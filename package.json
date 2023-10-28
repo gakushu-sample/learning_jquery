@@ -1,0 +1,17 @@
+{
+  "name": "learning_jquery",
+  "version": "1.0.0",
+  "description": "JavaScript で書かれたコードを jQuery で書き直す勉強用リポジトリ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.52.0",
+    "eslint-plugin-jquery": "^1.5.1",
+    "htmlhint": "^1.1.4"
+  }
+}

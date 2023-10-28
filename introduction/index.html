@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jQueryの説明</title>
+  <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" rel="stylesheet">
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js" defer></script>
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/main.js" defer></script>
+</head>
+
+<body>
+  <div class="main-container">
+    <div class="left-container">
+      <div class="pinned">
+        <ul class="section table-of-contents">
+          <li><a href="#introduction">Introduction</a></li>
+          <li><a href="#dom_access">DOMへのアクセス方法</a></li>
+          <li><a href="#roop">繰り返し処理</a></li>
+          <li><a href="#event">イベント処理</a></li>
+          <li><a href="#various">様々なAPI</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="right-container">
+      <main>
+        <h1>jQueryの説明</h1>
+        <div id="introduction" class="section scrollspy">
+          <h2>Introduction</h2>
+          <div>従来のJavaScriptでのイベントハンドラの登録は以下のように書いていた</div>
+          <pre>document.addEventListener('DOMContentLoaded', function () {
+<span class="comment">// ページ読み込み後に行いたい処理を実装していく</span>
+});</pre>
+          <div>jQuery では、以下のように書く</div>
+          <pre>$(function () {
+<span class="comment">// ページ読み込み後に行いたい処理を実装していく</span>
+});</pre>
+          <div>ただし、jQueryを利用するためにはライブラリの読み込みが必要。
+            <br>以下からダウンロードしたものを、HTMLの head 内に記載する。
+            <br><a href="https://jquery.com/download/">https://jquery.com/download/</a>
+          </div>
+          <br>
+          <div>記載方法はJavaScriptの外部ファイルを読み込む時と同様。
+            <br>ファイル名に <code>min</code> とついているものは改行やコメントを削除し軽量化されたものなので、ついているものを利用する。
+          </div>
+          <pre>&lt;script src="js/jquery.min.js"&gt;&lt;/script&gt;</pre>
+          <div>
+            このscriptタグは、jQueryのコードを書くより前に読み込む必要がある。
+            <br>イメージは以下。
+          </div>
+          <pre>&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Hello, World&lt;/title&gt;
+  &lt;script src="js/jquery.min.js"&gt;&lt;/script&gt;<span class="comment">&lt;!-- 先に読み込む --&gt;</span>
+  &lt;script src="js/myscript.js"&gt;&lt;/script&gt;<span class="comment">&lt;!-- 自分の書いたコードを後に読み込む --&gt;</span>
+&lt;/head&gt;</pre>
+        </div>
+        <div id="dom_access" class="section scrollspy">
+          <h2>DOMへのアクセス方法</h2>
+          <div>JavaScriptでDOMにアクセスする方法は以下のように実施していた。</div>
+          <pre>
+<span class="comment">// ID指定の場合（必ず一つ）</span>
+const element = document.getElementById('hoge');
+
+<span class="comment">// クラス指定の場合（複数のDOMが取れる）</span>
+const elements = document.getElementsByClassName('fuga');
+
+<span class="comment">// nameを指定することもできる（複数のDOMが取れる）</span>
+const elements = document.getElementsByName('foo');
+
+<span class="comment">// 専用のメソッドではなく、CSSのセレクタを使って指定するための方法もある</span>
+const element = document.querySelector('#hoge');
+const elements = document.querySelectorAll('.fuga');
+
+<span class="comment">// クラス指定でも、querySelectorを使った場合に取得されるDOMは最初に見つかった1件だけになる</span>
+const element = document.querySelector('.fuga');</pre>
+          <div>jQueryでDOMにアクセスする方法は以下のように実施する。</div>
+          <pre>
+<span class="comment">// ID指定の場合（変数名は慣例的に$をつける事が多い）</span>
+const $elem = $('#hoge');
+
+<span class="comment">// クラス指定の場合</span>
+const $elems = $('.fuga');
+
+<span class="comment">// name指定の場合</span>
+const $elems = $('[name="foo"]');</pre>
+          <div>見て分かる通り、jQueryではCSSのセレクタ指定の方法でのアクセスになる。
+            <br>また、以下のような特徴がある。
+          </div>
+          <ul class="browser-default">
+            <li>JavaScriptでDOMを取得した場合と異なり、jQueryのオブジェクトが変数に代入される</li>
+            <li>JavaScriptの書き方では指定したDOMがない場合、変数にはnullが入ってしまうが、jQueryの場合は必ずjQueryのオブジェクトが格納されるためnullチェックが簡素化できる</li>
+            <li>JavaScriptはかつてブラウザごとに挙動が異なる部分があったが、jQueryではどのブラウザにおいても同じコードで同じように動作する（クロスブラウザ対応）</li>
+          </ul>
+        </div>
+        <div id="roop" class="section scrollspy">
+          <h2>繰り返し処理</h2>
+          <div>複数取得した要素を繰り返し処理する書き方が異なる。
+            <br>JavaScriptの場合は以下のように書く。
+          </div>
+          <pre>
+<span class="comment">// itemというクラスがついたテキストボックスの要素を取得</span>
+const elements = document.querySelectorAll('input[type="text"].item');
+for (const element of elements) {
+    <span class="comment">// テキストボックスの中身をコンソールに出力</span>
+    console.log(element.value);
+    <span class="comment">// 中断する場合はいつも通り</span>
+    break;
+    <span class="comment">// 後続処理をスキップして次の要素の処理に行く場合もいつも通り</span>
+    continue;
+}</pre>
+          <div>jQueryでは以下のように書く。</div>
+          <pre>
+<span class="comment">// アクセスするDOMに対してeachメソッドにより繰り返し処理を行う</span>
+$('input[type="text"].item').each(function () {
+    <span class="comment">// eachの中では指定した要素が $(this) として一つずつアクセスできる</span>
+    <span class="comment">// jQueryのオブジェクトなので、valというメソッドで値を取得する</span>
+    console.log($(this).val());
+    <span class="comment">// 中断する場合は break が使えないので注意。以下のように書く</span>
+    return false;
+    <span class="comment">// 後続処理をスキップして次の要素の処理に行く場合</span>
+    return true;
+});</pre>
+          <div>jQueryの方がコード量が少なくなることが多いが、使い方を理解していないと誤った処理となるので注意。</div>
+        </div>
+        <div id="event" class="section scrollspy">
+          <h2>イベント処理</h2>
+          <div>JavaScriptの場合は冒頭でも記載した通り。
+            <br>例えば、 <code>hoge</code> というIDがついたボタンをクリックした際に <code>fuga</code> というIDがついたテキストボックスの中身をアラート表示する場合は以下のように書く。
+          </div>
+          <pre>
+document.addEventListener('DOMContentLoaded', function () {
+    const btn = document.getElementById('hoge');
+    btn.addEventListener('click', function () {
+        const element = document.getElementById('fuga');
+        if (element) {
+            window.alert(element.value);
+        }
+    });
+});</pre>
+          <div>JavaScriptでは要素がない場合にvalueプロパティへアクセスできずエラーとなってしまうため、要素があるかのチェックが必要。</div>
+          <br>
+          <div>jQueryでは、以下のように書く。</div>
+          <pre>
+$(function () {
+    $('#hoge').on('click', function () {
+        window.alert($('#fuga').val());
+    });
+    <span class="comment">// あるいは以下のようにも書ける</span>
+    $('#hoge').click(function () {
+        window.alert($('#fuga').val());
+    });
+});</pre>
+          <div>jQueryでは addEventListener の代わりに on メソッドを使用する。
+            <br>また、DOMが見つからなくてもjQueryのオブジェクトを返却するため、 val メソッドを呼び出せる。
+            <br>nullチェックが不要なので、コード量を減らせるメリットがある。
+          </div>
+          <br>
+          <div>いずれのイベントも on で実装可能。</div>
+          <pre>
+$(function () {
+    $('#hoge').on('change', function () {
+        <span class="comment">// 変更時の処理</span>
+    });
+    $('#hoge').on('input', function () {
+        <span class="comment">// 入力時の処理</span>
+    });
+    $('#hoge').on('focus', function () {
+        <span class="comment">// フォーカスされた時の処理</span>
+    });
+    $('#hoge').on('blur', function () {
+        <span class="comment">// フォーカスが外れた時の処理</span>
+    });
+});</pre>
+        </div>
+        <div id="various" class="section scrollspy">
+          <h2>様々なAPI</h2>
+          <div>jQueryでの様々な操作の例を以下に記載。</div>
+          <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Hello, World&lt;/title&gt;
+  &lt;script src="js/jquery.min.js"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    $(function () {
+      <span class="comment">// test1 のIDを持つ要素内で、 item クラスを持つ要素に対して文字列を要素内に書き込む</span>
+      <span class="comment">// 何かイベントに関連させていないので、画面描画後にすぐさま実行される</span>
+      $('#test1 .item').each(function () {
+        $(this).text('この文字列が要素内に書き込まれる');
+      });
+      <span class="comment">// ボタンクリックでテキストボックス内に文字を書き込む</span>
+      $('#test2_btn').on('click', function () {
+        <span class="comment">// この例では、テキストボックスに readonly 属性も付与している</span>
+        $('#test2_text').val('この文字列がテキストボックスに書き込まれる').prop('readonly', true);
+        <span class="comment">// さらに、テキストボックスを要素内に追加する</span>
+        $('#test2').append('&lt;input type="text"&gt;');
+      });
+      <span class="comment">// ボタン押下でtr要素内の3つ目のtd内の文字をアラート表示する</span>
+      $('#test3_btn').on('click', function () {
+        $('#test3 table tr').each(function () {
+          const text = $(this).find('td:nth-child(3)').text();
+          window.alert(text);
+        });
+      });
+    });
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="container"&gt;
+    &lt;div id="test1"&gt;
+      &lt;div class="item"&gt;&lt;/div&gt;
+      &lt;div class="item"&gt;&lt;/div&gt;
+      &lt;div class="item"&gt;&lt;/div&gt;
+      &lt;div class="item"&gt;&lt;/div&gt;
+      &lt;div class="item"&gt;&lt;/div&gt;
+      &lt;div class="item"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div id="test2"&gt;
+      &lt;input type="text" id="test2_text" value=""&gt;
+      &lt;button type="button" id="test2_btn"&gt;ボタン&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div id="test3"&gt;
+      &lt;table&gt;
+        &lt;tr&gt;
+          &lt;td&gt;あ&lt;/td&gt;
+          &lt;td&gt;い&lt;/td&gt;
+          &lt;td&gt;う&lt;/td&gt;
+          &lt;td&gt;え&lt;/td&gt;
+          &lt;td&gt;お&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td&gt;か&lt;/td&gt;
+          &lt;td&gt;き&lt;/td&gt;
+          &lt;td&gt;く&lt;/td&gt;
+          &lt;td&gt;け&lt;/td&gt;
+          &lt;td&gt;こ&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td&gt;さ&lt;/td&gt;
+          &lt;td&gt;し&lt;/td&gt;
+          &lt;td&gt;す&lt;/td&gt;
+          &lt;td&gt;せ&lt;/td&gt;
+          &lt;td&gt;そ&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;
+      &lt;button type="button" id="test3_btn"&gt;3つ目をアラート表示&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+          <div>このほか、<a href="https://api.jquery.com/">jQuery のドキュメント</a>には実に様々なAPIが記載されているため、見たことのないものがあれば参照すると良い。</div>
+        </div>
+      </main>
+      <footer>
+        <div class="footer-copyright">
+          &copy; gakushu-sample
+        </div>
+      </footer>
+    </div>
+  </div>
+</body>
+
+</html>

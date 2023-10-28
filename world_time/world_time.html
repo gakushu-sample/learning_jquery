@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Time</title>
+  <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+  <link href="styles/main.css" rel="stylesheet">
+  <script src="js/main.js"></script>
+</head>
+
+<body>
+  <main>
+    <div class="top_container">
+      <div class="top_child">
+        <select id="city" class="city">
+          <option value="-10">Honolulu (USA)</option>
+          <option value="-8">Los Angeles (USA)</option>
+          <option value="-5">New York (USA)</option>
+          <option value="-3">Rio de Janeiro (BRAZIL)</option>
+          <option value="0">London (UK)</option>
+          <option value="2">Cairo (EGYPT)</option>
+          <option value="5.5">New Delhi (INDIA)</option>
+          <option value="7">Bangkok (THAILAND)</option>
+          <option value="9" selected>Tokyo (JAPAN)</option>
+          <option value="10">Sydney (AUSTRALIA)</option>
+        </select>
+      </div>
+      <div id="timezone" class="top_child"></div>
+    </div>
+    <h1>世界時計</h1>
+    <div class="clock">
+      <div id="date" class="date">----/--/--</div>
+      <div id="time" class="time">--:--:--</div>
+    </div>
+    <hr>
+    <h1>世界時計（jQuery版）</h1>
+    <div class="clock">
+      <div id="date_j" class="date">----/--/--</div>
+      <div id="time_j" class="time">--:--:--</div>
+    </div>
+  </main>
+</body>
+
+</html>

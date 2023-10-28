@@ -1,0 +1,43 @@
+html,
+body {
+    font-family: 'Nunito', 'Noto Sans JP', sans-serif;
+    color: #4b4b4b;
+    letter-spacing: 0.1rem;
+}
+.main-container {
+    display: flex;
+}
+.left-container {
+    flex: 0 0 20%;
+    box-sizing: border-box;
+    padding: 1vh 0 0 2vw;
+}
+.right-container {
+    flex: 1 1 80%;
+}
+ul.table-of-contents a.active {
+    font-weight: bold;
+    color: black;
+}
+main {
+    padding: 1vh 3vw;
+    min-height: 100vh;
+    box-sizing: border-box;
+    background-color: #eee;
+    font-size: 20px;
+}
+pre {
+    border: solid 1px #4b4b4b;
+    background-color: #ddd;
+    color: black;
+    padding: 1rem;
+}
+footer {
+    background-color: #eee;
+    padding: 1vh 3vw;
+    box-sizing: border-box;
+    text-align: center;
+}
+span.comment {
+    color: #747474;
+}
